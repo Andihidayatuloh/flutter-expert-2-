@@ -5,13 +5,14 @@ import 'package:mockito/mockito.dart';
 import 'package:movies/domain/usescase/get_movie_detail.dart';
 
 import '../dumy_data/dummy_objects.dart';
+import '../helpers/test_helper.mocks.dart';
 
 void main() {
   late GetMovieDetail usecase;
   late MockMovieRepository mockMovieRepository;
 
   setUp(() {
-    mockMovieRepository = mockMovieRepository();
+    mockMovieRepository = mockMovieRepository;
     usecase = GetMovieDetail(mockMovieRepository);
   });
 

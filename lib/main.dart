@@ -1,9 +1,9 @@
 import 'package:ditonton/main_library.dart';
-import 'package:search/search.dart';
 import 'package:about/about.dart';
+import 'package:movies/movies.dart';
 import 'package:flutter/cupertino.dart';
-
 import 'package:ditonton/injection.dart' as di;
+import 'package:provider/provider.dart';
 
 void main() {
   di.init();

@@ -1,4 +1,5 @@
 
+
 import 'package:core/core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -8,10 +9,10 @@ import '../../helpers/test_helper.mocks.dart';
 
 void main() {
   late TvLocalDataSourceImpl dataSource;
-  late MockDatabaseHelper mockDatabaseHelper;
+  late MockDatabaseHelperTv mockDatabaseHelper;
 
   setUp(() {
-    mockDatabaseHelper = MockDatabaseHelper();
+    mockDatabaseHelper = MockDatabaseHelperTv();
     dataSource = TvLocalDataSourceImpl(tvDatabaseHelperTv: mockDatabaseHelper);
   });
 

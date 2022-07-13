@@ -5,6 +5,8 @@ import 'package:mockito/mockito.dart';
 import 'package:movies/domain/usescase/get_popular_movies.dart';
 import 'package:movies/movies.dart';
 
+import '../helpers/test_helper.mocks.dart';
+
 
 void main() {
   late GetPopularMovies usecase;
