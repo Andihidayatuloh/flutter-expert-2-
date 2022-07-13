@@ -1,18 +1,11 @@
 import 'dart:io';
 
+import 'package:core/core.dart';
 import 'package:dartz/dartz.dart';
-import 'package:ditonton/common/exception.dart';
-import 'package:ditonton/common/failure.dart';
-import 'package:ditonton/data/models/genre_model.dart';
-import 'package:ditonton/data/models/tv/tv_detail.dart';
-import 'package:ditonton/data/models/tv/tv_model.dart';
-import 'package:ditonton/data/repositories/tv_repository_imp.dart';
-import 'package:ditonton/domain/entities/tv/tv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../dummy_data/dummy_objects.dart';
-import '../../helpers/test_helper_tv.mocks.dart';
 
 void main() {
   late TvRepositoryImpl repository;
@@ -209,6 +202,9 @@ void main() {
       type: 'type',
       voteAverage: 1,
       voteCount: 1,
+      seasons: [
+        Season(episodeCount: 1, id: 1, name: 'name', overview: 'overview', seasonNumber: 1)
+      ]
     );
 
     test(

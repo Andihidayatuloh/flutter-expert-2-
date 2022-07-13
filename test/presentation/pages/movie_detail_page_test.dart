@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import '../../../core/test/dummy_data/dummy_objects.dart';
 import 'movie_detail_page_test.mocks.dart';
 
-@GenerateMocks([MovieDetailNotifier])
+@GenerateMocks([MockMovieDetailNotifier()])
 void main() {
   late MockMovieDetailNotifier mockNotifier;
 

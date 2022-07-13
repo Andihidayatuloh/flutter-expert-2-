@@ -1,10 +1,5 @@
-import 'package:ditonton/data/models/movie_table.dart';
-import 'package:ditonton/data/models/tv/tv_table.dart';
-import 'package:ditonton/domain/entities/genre.dart';
-import 'package:ditonton/domain/entities/movie.dart';
-import 'package:ditonton/domain/entities/movie_detail.dart';
-import 'package:ditonton/domain/entities/tv/tv.dart';
-import 'package:ditonton/domain/entities/tv/tv_detail.dart';
+import 'package:core/core.dart';
+
 
 final testMovie = Movie(
   adult: false,
@@ -79,7 +74,7 @@ final testTv = Tv(
 
 final testTvList = [testTv];
 
-final testTvDetail = TvDetail(
+final testTvDetail = TvDetail(  
   backdropPath: 'backdropPath',
   episodeRunTime: [60],
   firstAirDate: DateTime(2011 - 04 - 17),
@@ -103,6 +98,9 @@ final testTvDetail = TvDetail(
   type: 'type',
   voteAverage: 1,
   voteCount: 1,
+  seasons: [
+    Season(episodeCount: 1, id: 1, name: 'name', overview: 'overview', seasonNumber: 1)
+  ]
 );
 
 final testTvTable = TvTable(
