@@ -4,6 +4,7 @@ import 'package:movies/movies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ditonton/injection.dart' as di;
 import 'package:provider/provider.dart';
+import 'package:search/search.dart';
 
 void main() {
   di.init();

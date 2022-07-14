@@ -1,7 +1,5 @@
 import 'package:tv/tv.dart';
 
-
-
 class BlocTvDetailBloc extends Bloc<TvDetailEvent, TvDetailState> {
   static const watchlistAddSuccessMessage = 'Added to Watchlist';
   static const watchlistRemoveSuccessMessage = 'Removed from Watchlist';

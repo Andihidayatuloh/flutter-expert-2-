@@ -1,6 +1,3 @@
-import 'package:search/presentation/bloc/bloc_search_event.dart';
-import 'package:search/presentation/bloc/bloc_search_state.dart';
-import 'package:search/presentation/bloc/movies/bloc_search_movies_bloc.dart';
 import 'package:search/search.dart';
 
 class BlocSearchTvBloc extends Bloc<BlocSearchEvent, BlocSearchState> {

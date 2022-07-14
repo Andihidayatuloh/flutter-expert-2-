@@ -1,4 +1,5 @@
-import 'package:movies/movies.dart';
+import 'package:core/core.dart';
+
 
 final testMovie = Movie(
   adult: false,
@@ -73,31 +74,25 @@ final testTv = Tv(
 
 final testTvList = [testTv];
 
-final testTvDetail = TvDetail(
-  backdropPath: 'backdropPath',
-  episodeRunTime: [60],
-  firstAirDate: DateTime(2011 - 04 - 17),
-  genres: [Genre(id: 1, name: 'Action')],
-  homepage: 'homepage',
+const testTvDetail = TvDetail(
+  episodeRunTime: [1],
+  genres: [Genre(id: 1, name: 'name')],
   id: 1,
-  inProduction: false,
-  languages: ["en"],
-  lastAirDate: DateTime(2019 - 05 - 19),
   name: 'name',
-  numberOfEpisodes: 10,
+  numberOfEpisodes: 1,
   numberOfSeasons: 1,
-  originCountry: ["US"],
-  originalLanguage: 'originalLanguage',
-  originalName: 'originalName',
   overview: 'overview',
-  popularity: 1,
   posterPath: 'posterPath',
-  status: 'status',
-  tagline: 'tagline',
-  type: 'type',
+  seasons: [
+    Season(
+      episodeCount: 1,
+      id: 1,
+      name: 'name',
+      overview: 'overview',
+      seasonNumber: 1,
+    )
+  ],
   voteAverage: 1,
-  voteCount: 1,
-  seasons: 
 );
 
 final testTvTable = TvTable(

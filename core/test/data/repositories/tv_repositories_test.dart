@@ -176,36 +176,28 @@ void main() {
     });
   });
 
-  group('Get Tv Detail', () {
-    final tId = 1;
 
-    final tTvResponse = TvDetailResponse(
-      backdropPath: 'backdropPath',
-      episodeRunTime: [60],
-      firstAirDate: DateTime(2011 - 04 - 17),
-      genres: [GenreModel(id: 1, name: 'Action')],
-      homepage: 'homepage',
+  group('Get Tv Detail', () {
+    const tId = 1;
+    const tTvResponse = TvDetailResponse(
+      episodeRunTime: [1],
+      genre: [GenreModel(id: 1, name: 'name')],
       id: 1,
-      inProduction: false,
-      languages: ["en"],
-      lastAirDate: DateTime(2019 - 05 - 19),
       name: 'name',
-      numberOfEpisodes: 10,
+      numberOfEpisodes: 1,
       numberOfSeasons: 1,
-      originCountry: ["US"],
-      originalLanguage: 'originalLanguage',
-      originalName: 'originalName',
       overview: 'overview',
-      popularity: 1,
       posterPath: 'posterPath',
-      status: 'status',
-      tagline: 'tagline',
-      type: 'type',
-      voteAverage: 1,
-      voteCount: 1,
       seasons: [
-        Season(episodeCount: 1, id: 1, name: 'name', overview: 'overview', seasonNumber: 1)
-      ]
+        Season(
+          episodeCount: 1,
+          id: 1,
+          name: 'name',
+          overview: 'overview',
+          seasonNumber: 1,
+        )
+      ],
+      voteAverage: 1,
     );
 
     test(
