@@ -1,9 +1,7 @@
 import 'package:ditonton/main_library.dart';
 import 'package:about/about.dart';
-import 'package:movies/movies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:ditonton/injection.dart' as di;
-import 'package:provider/provider.dart';
 import 'package:search/search.dart';
 
 void main() {
@@ -24,7 +22,7 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<BlocMovieDetailBloc>(),
         ),
         BlocProvider(
-          create: (_) => di.locator<BLocSearchMoviesBloc>(),
+          create: (_) => di.locator<BlocSearchMoviesBloc>(),
         ),
         BlocProvider(
           create: (_) => di.locator<TopRatedMoviesBloc>(),
@@ -44,7 +42,7 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<BlocTvDetailBloc>(),
         ),
         BlocProvider(
-          create: (_) => di.locator<SearchTvBloc>(),
+          create: (_) => di.locator<BlocSearchTvBloc>(),
         ),
         BlocProvider(
           create: (_) => di.locator<BlocTopTvBloc>(),
@@ -99,7 +97,7 @@ class MyApp extends StatelessWidget {
             case MOVIE_SEARCH:
               return CupertinoPageRoute(builder: (_) => SearchPage());
             case TV_SEARCH:
-              return CupertinoPageRoute(builder: (_) => SearchTvPage());
+              return CupertinoPageRoute(builder: (_) => SearchPageTv());
 
             case MOVIE_WATCHLIST:
               return MaterialPageRoute(builder: (_) => WatchlistMoviesPage());

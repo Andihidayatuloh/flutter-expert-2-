@@ -1,8 +1,5 @@
 import 'package:movies/movies.dart';
 
-
-
-
 class WatchlistMoviesBloc extends Bloc<BlocWatchlistEvent, WatchlistState> {
   final GetWatchlistMovies _getWatchlistMovies;
 
