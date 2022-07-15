@@ -156,7 +156,8 @@ class _DetailContentState extends State<DetailContentTV> {
                             Text(
                               _showGenres(widget.tv.genres),
                             ),
-                            Text(_showDuration(widget.tv.episodeRunTime.first)),
+                              widget.tv.episodeRunTime.isNotEmpty ? Text(
+                                _showDuration(widget.tv.episodeRunTime.first)) :Container (),
                             Row(
                               children: [
                                 RatingBarIndicator(
