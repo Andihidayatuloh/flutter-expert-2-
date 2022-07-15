@@ -33,8 +33,8 @@ void main() {
       },
       act: (bloc) => bloc.add(OnQueryMoviesChanged(queryMovie)),
       wait: const Duration(milliseconds: 500),
-      expect: () {
-        [BlocMoviesSearchLoading(), BlocMoviesSearchLoaded(movieList)];
+      expect: () => {
+        BlocMoviesSearchLoading(), BlocMoviesSearchLoaded(movieList)
       },
       verify: (bloc) => verify(mocks.execute(queryMovie)),
     );
@@ -48,8 +48,8 @@ void main() {
       },
       act: (bloc) => bloc.add(OnQueryMoviesChanged(queryMovie)),
       wait: const Duration(milliseconds: 500),
-      expect: () {
-        [BlocMoviesSearchLoading(), BlocMoviesSearchError('Server Failure')];
+      expect: () => {
+        BlocMoviesSearchLoading(), BlocMoviesSearchError('Server Failure')
       },
       verify: (bloc) => verify(mocks.execute(queryMovie)),
     );

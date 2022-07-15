@@ -32,23 +32,8 @@ void main() {
       },
       act: (bloc) => bloc.add(OnQueryTvChanged(query)),
       wait: const Duration(milliseconds: 500),
-      expect: () {
-        [BlocTvSearchLoading(), BlocTvSearchLoaded(tTvModel)];
-      },
-      verify: (bloc) => verify(mocks.execute(query)),
-    );
-
-    blocTest<BlocTvSearchBloc, BlocTvSearchState>(
-      'harus menampilkan [Loading, Error] saat data pencarian gagal didapatkan',
-      build: () {
-        when(mocks.execute(query))
-            .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
-        return blocs;
-      },
-      act: (bloc) => bloc.add(OnQueryTvChanged(query)),
-      wait: const Duration(milliseconds: 500),
-      expect: () {
-        [BlocTvSearchLoading(), BlocTvSearchError('Server Failure')];
+      expect: () => {
+        BlocTvSearchLoading(), BlocTvSearchLoaded(tTvModel)
       },
       verify: (bloc) => verify(mocks.execute(query)),
     );
