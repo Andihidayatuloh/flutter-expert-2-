@@ -5,7 +5,7 @@ class TvDetailPage extends StatefulWidget {
   static const ROUTE_NAME = '/detail-tv';
 
   final int id;
-  TvDetailPage({required this.id});
+  const TvDetailPage({required this.id});
 
   @override
   _TvDetailPageState createState() => _TvDetailPageState();
