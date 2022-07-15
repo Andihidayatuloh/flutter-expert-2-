@@ -1,73 +1,74 @@
-import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:tv/tv.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:mocktail/mocktail.dart';
 
-import '../../dummy_data/dummy_objects.dart';
-
-class TopRatedTvsEventFake extends Fake implements BlocTvEvent {}
-
-class TopRatedTvsStateFake extends Fake implements BlocTvState {}
-
-class MockTopRatedTvsBloc extends MockBloc<BlocTvEvent, BlocTvState>
-    implements BlocTopTvBloc{}
+import '../../data_dummy/dummy_objects.dart';
 
 void main() {
-  late MockTopRatedTvsBloc mockTopRatedTvsBloc;
-
-  setUpAll(() {
-    registerFallbackValue(TopRatedTvsEventFake());
-    registerFallbackValue(TopRatedTvsStateFake());
-  });
+  late MockTopRatedTvBloc mocks;
 
   setUp(() {
-    mockTopRatedTvsBloc = MockTopRatedTvsBloc();
+    registerFallbackValue(TopRatedTvStateFake());
+    registerFallbackValue(TopRatedTvEventFake());
+    mocks = MockTopRatedTvBloc();
   });
 
   Widget _makeTestableWidget(Widget body) {
-    return BlocProvider<BlocTopTvBloc>.value(
-      value: mockTopRatedTvsBloc,
+    return BlocProvider<TopRatedTvBloc>.value(
+      value: mocks,
       child: MaterialApp(
         home: body,
       ),
     );
   }
 
-  testWidgets('Page should display progress bar when loading',
-      (WidgetTester tester) async {
-    when(() => mockTopRatedTvsBloc.state).thenReturn(TvLoading());
+  group('Testing Halaman Top Rated Tv', () {
+    testWidgets(
+        'dapat menampilkan CircularProgressIndicator saat state sedang Loading ',
+        (WidgetTester tester) async {
+      when(() => mocks.state).thenReturn(BlocTopRatedTvLoading());
 
-    final progressFinder = find.byType(CircularProgressIndicator);
-    final centerFinder = find.byType(Center);
+      final progressBarFinder = find.byType(CircularProgressIndicator);
 
-    await tester.pumpWidget(_makeTestableWidget(TopRatedTvPage()));
+      await tester.pumpWidget(_makeTestableWidget(TopRatedTvPage()));
 
-    expect(centerFinder, findsOneWidget);
-    expect(progressFinder, findsOneWidget);
-  });
+      expect(progressBarFinder, findsOneWidget);
+    });
 
-  testWidgets('Page should display when data is loaded',
-      (WidgetTester tester) async {
-    when(() => mockTopRatedTvsBloc.state).thenReturn(TvLoaded([testTv]));
+    testWidgets('dapat menampilkan ListView saat data tersedia',
+        (WidgetTester tester) async {
+      when(() => mocks.state).thenReturn(BlocTopRatedTvLoaded(testTvList));
 
-    final listViewFinder = find.byType(ListView);
+      final titleText = find.text('Top Rated Tv');
+      final listViewFinder = find.byType(ListView);
 
-    await tester.pumpWidget(_makeTestableWidget(TopRatedTvPage()));
+      await tester.pumpWidget(_makeTestableWidget(TopRatedTvPage()));
 
-    expect(listViewFinder, findsOneWidget);
-  });
+      expect(titleText, findsOneWidget);
+      expect(listViewFinder, findsOneWidget);
+    });
 
-  testWidgets('Page should display text with message when Error',
-      (WidgetTester tester) async {
-    when(() => mockTopRatedTvsBloc.state)
-        .thenReturn(const TvError('Error message'));
+    testWidgets('dapat menampilkan text Failed saat sedang Error',
+        (WidgetTester tester) async {
+      when(() => mocks.state).thenReturn(const BlocTopRatedTvError('Failed'));
 
-    final textFinder = find.byKey(const Key('error_message'));
+      final titleText = find.text('Top Rated Tv');
+      final textFinder = find.byKey(const Key('error_message'));
 
-    await tester.pumpWidget(_makeTestableWidget(TopRatedTvPage()));
+      await tester.pumpWidget(_makeTestableWidget(TopRatedTvPage()));
 
-    expect(textFinder, findsOneWidget);
+      expect(titleText, findsOneWidget);
+      expect(textFinder, findsOneWidget);
+    });
   });
 }
+
+// Mocks TopRated Tv
+class MockTopRatedTvBloc
+    extends MockBloc<BlocTopRatedTvEvent, BlocTopRatedTvState>
+    implements TopRatedTvBloc {}
+
+class TopRatedTvEventFake extends Fake implements BlocTopRatedTvEvent {}
+
+class TopRatedTvStateFake extends Fake implements BlocTopRatedTvState {}

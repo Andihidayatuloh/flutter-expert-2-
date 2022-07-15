@@ -1,4 +1,3 @@
-
 //tv
 const TV_HOME_PAGE = '/home-tv';
 const TV_WATCHLIST = '/watchlist-tv';
@@ -15,11 +14,8 @@ const MOVIE_TOP_RATED = '/top-rated-movie';
 const MOVIE_SEARCH = '/search';
 const MOVIE_DETAIL = '/detail-movie';
 
+//watchlist
+const WATCHLIST = '/watchlist';
+
 //about
 const ABOUT = '/about';
-
-
-
-
-
-

@@ -1,73 +1,76 @@
-import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:movies/movies.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:mocktail/mocktail.dart';
 
-import '../../dumy_data/dummy_objects.dart';
-
-
-class PopularMoviesEventFake extends Fake implements BlocMoviesEvent {}
-
-class PopularMoviesStateFake extends Fake implements BlocMoviesState {}
-
-class MockPopularMoviesBloc extends MockBloc<BlocMoviesEvent, BlocMoviesState>
-    implements BlocPopularMoviesBloc {}
+import '../../data_dummy/dummy_objects.dart';
 
 void main() {
-  late MockPopularMoviesBloc mockPopularMoviesBloc;
-
-  setUpAll(() {
-    registerFallbackValue(PopularMoviesEventFake());
-    registerFallbackValue(PopularMoviesStateFake());
-  });
+  late MockPopularMoviesBloc mocks;
 
   setUp(() {
-    mockPopularMoviesBloc = MockPopularMoviesBloc();
+    registerFallbackValue(PopularMoviesStateFake());
+    registerFallbackValue(PopularMoviesEventFake());
+    mocks = MockPopularMoviesBloc();
   });
 
   Widget _makeTestableWidget(Widget body) {
     return BlocProvider<BlocPopularMoviesBloc>.value(
-      value: mockPopularMoviesBloc,
+      value: mocks,
       child: MaterialApp(
         home: body,
       ),
     );
   }
 
-  testWidgets('Page should display center progress bar when loading',
-      (WidgetTester tester) async {
-    when(() => mockPopularMoviesBloc.state).thenReturn(BlocMoviesLoading());
+  group('Testing Halaman Popular Movies', () {
+    testWidgets(
+        'dapat menampilkan CircularProgressIndicator saat state sedang Loading ',
+        (WidgetTester tester) async {
+      when(() => mocks.state).thenReturn(BlocPopularMoviesLoading());
 
-    final progressBarFinder = find.byType(CircularProgressIndicator);
-    final centerFinder = find.byType(Center);
+      final progressBarFinder = find.byType(CircularProgressIndicator);
 
-    await tester.pumpWidget(_makeTestableWidget(const PopularMoviesPage()));
+      await tester.pumpWidget(_makeTestableWidget(const PopularMoviesPage()));
 
-    expect(centerFinder, findsOneWidget);
-    expect(progressBarFinder, findsOneWidget);
-  });
+      expect(progressBarFinder, findsOneWidget);
+    });
 
-  testWidgets('Page should display ListView when data is loaded',
-      (WidgetTester tester) async {
-    when(() => mockPopularMoviesBloc.state)
-        .thenReturn(BlocMoviesLoaded([testMovie]));
+    testWidgets('dapat menampilkan ListView saat data tersedia',
+        (WidgetTester tester) async {
+      when(() => mocks.state)
+          .thenReturn(BlocPopularMoviesLoaded(testMovieList));
 
-    final listViewFinder = find.byType(ListView);
+      final titleText = find.text('Popular Movies');
+      final listViewFinder = find.byType(ListView);
 
-    await tester.pumpWidget(_makeTestableWidget(const PopularMoviesPage()));
+      await tester.pumpWidget(_makeTestableWidget(const PopularMoviesPage()));
 
-    expect(listViewFinder, findsOneWidget);
-  });
+      expect(titleText, findsOneWidget);
+      expect(listViewFinder, findsOneWidget);
+    });
 
-  testWidgets('Page should display text with message when Error',
-      (WidgetTester tester) async {
-    when(() => mockPopularMoviesBloc.state)
-        .thenReturn(const BlocMoviesError('Error message'));
+    testWidgets('dapat menampilkan text Failed saat sedang Error',
+        (WidgetTester tester) async {
+      when(() => mocks.state)
+          .thenReturn(const BlocPopularMoviesError('Failed'));
 
-    final textFinder = find.byKey(const Key('error_message'));
+      final titleText = find.text('Popular Movies');
+      final textFinder = find.byKey(const Key('error_message'));
 
-    await tester.pumpWidget(_makeTestableWidget(const PopularMoviesPage()));
+      await tester.pumpWidget(_makeTestableWidget(const PopularMoviesPage()));
 
-    expect(textFinder, findsOneWidget);
+      expect(titleText, findsOneWidget);
+      expect(textFinder, findsOneWidget);
+    });
   });
 }
+
+// Mocks Popular Movies
+class MockPopularMoviesBloc
+    extends MockBloc<BlocPopularMoviesEvent, BlocPopularMoviesState>
+    implements BlocPopularMoviesBloc {}
+
+class PopularMoviesEventFake extends Fake implements BlocPopularMoviesEvent {}
+
+class PopularMoviesStateFake extends Fake implements BlocPopularMoviesState {}

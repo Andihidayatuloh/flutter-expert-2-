@@ -1,12 +1,18 @@
+import 'dart:io';
+
 import 'main_library.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
 import 'package:get_it/get_it.dart';
-import 'package:search/search.dart';
 
 final locator = GetIt.instance;
 
-void init() {
-  // provider movie
+void init(HttpClient client) {
+  // bloc movie
+  locator.registerFactory(
+    () => BlocMoviesSearchBloc(
+      search: locator(),
+    ),
+  );
   locator.registerFactory(
     () => BlocMoviesListBloc(
       locator(),
@@ -21,14 +27,17 @@ void init() {
     () => BlocMovieDetailBloc(
       getMovieDetail: locator(),
       getMovieRecommendations: locator(),
-      getWatchListStatus: locator(),
-      saveWatchlist: locator(),
-      removeWatchlist: locator(),
     ),
   );
- locator.registerFactory(
-    () => BlocSearchMoviesBloc(
-      locator(),
+  locator.registerFactory(
+    () => BlocMovieWatchlistStatus(
+      getWatchListStatus: locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => BlocWatchlistMovieAR(
+      saveWatchlist: locator(),
+      removeWatchlist: locator(),
     ),
   );
   locator.registerFactory(
@@ -42,24 +51,32 @@ void init() {
     ),
   );
 
-  // provider tv
+  // bloc tv
   locator.registerFactory(
-    () => BlocListTvBloc(
+    () => BlocTvListBloc(
       locator(),
     ),
   );
   locator.registerFactory(
     () => BlocTvDetailBloc(
       getTvDetail: locator(),
-      getTvRecommendation: locator(),
+      getTvRecommendations: locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => BlocTvWatchlistStatus(
       getWatchListStatus: locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => BlocWatchlistTvAR(
       saveWatchlist: locator(),
       removeWatchlist: locator(),
     ),
   );
   locator.registerFactory(
-    () => BlocSearchTvBloc(
-      locator(),
+    () => BlocTvSearchBloc(
+      search: locator(),
     ),
   );
   locator.registerFactory(
@@ -68,7 +85,7 @@ void init() {
     ),
   );
   locator.registerFactory(
-    () => BlocTopTvBloc(
+    () => TopRatedTvBloc(
       locator(),
     ),
   );
@@ -137,5 +154,5 @@ void init() {
   locator.registerLazySingleton<DatabaseTv>(() => DatabaseTv());
 
   // external
-  locator.registerLazySingleton(() => http.Client());
+  locator.registerLazySingleton(() => IOClient(client));
 }

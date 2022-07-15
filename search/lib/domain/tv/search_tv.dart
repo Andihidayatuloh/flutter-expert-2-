@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:core/core.dart';
 import 'package:search/search.dart';
 
 class SearchTv {

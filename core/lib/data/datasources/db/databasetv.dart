@@ -1,6 +1,5 @@
 import 'dart:async';
-
-import 'package:core/data/models/tv/tv_table.dart';
+import 'package:tv/tv.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseTv {
@@ -9,8 +8,7 @@ class DatabaseTv {
     _databaseHelperTv = this;
   }
 
-  factory DatabaseTv() =>
-      _databaseHelperTv ?? DatabaseTv._instance();
+  factory DatabaseTv() => _databaseHelperTv ?? DatabaseTv._instance();
 
   static Database? _database;
 

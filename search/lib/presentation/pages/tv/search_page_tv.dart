@@ -1,15 +1,12 @@
-import 'package:search/presentation/bloc/bloc_search_event.dart';
-import 'package:search/presentation/bloc/bloc_search_state.dart';
 import 'package:search/search.dart';
+import 'package:core/core.dart';
 
-class SearchPageTv extends StatelessWidget {
-  const SearchPageTv({Key? key}) : super(key: key);
-
+class SearchTvPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search Tv'),
+        title: const Text('Search Tv'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -17,8 +14,9 @@ class SearchPageTv extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
+              key: const Key('search-textfield'),
               onChanged: (query) {
-                context.read<BlocSearchTvBloc>().add(OnQueryChanged(query));
+                context.read<BlocTvSearchBloc>().add(OnQueryTvChanged(query));
               },
               decoration: const InputDecoration(
                 hintText: 'Search title',
@@ -32,34 +30,31 @@ class SearchPageTv extends StatelessWidget {
               'Search Result',
               style: kHeading6,
             ),
-            BlocBuilder<BlocSearchTvBloc, BlocSearchState>(
-              builder: (context, state) {
-                if (state is SearchLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state is SearchLoaded) {
-                  final result = state.result;
+            BlocBuilder<BlocTvSearchBloc, BlocTvSearchState>(
+              builder: (context, object) {
+                if (object is BlocTvSearchLoading) {
+                  return const Expanded(
+                      child: Center(child: CircularProgressIndicator()));
+                } else if (object is BlocTvSearchLoaded) {
+                  final List<dynamic> resultData = [
+                    ...object.data,
+                  ];
                   return Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(8),
-                      itemBuilder: (context, index) {
-                        final tv = result[index];
-                        return TvCard(tv);
-                      },
-                      itemCount: result.length,
-                    ),
-                  );
-                } else if (state is SearchError) {
-                  return Expanded(
-                    child: Center(
-                      child: Text(state.message),
-                    ),
+                    child: (resultData.isNotEmpty)
+                        ? ListView.builder(
+                            key: const Key('search-listview'),
+                            itemBuilder: (context, index) =>
+                                (resultData[index] is Tv)
+                                    ? TvCard(resultData[index])
+                                    : const Center(child: Text('Failed')),
+                            itemCount: resultData.length,
+                          )
+                        : const Center(
+                            child: Text('Data Tv tidak dapat ditemukan'),
+                          ),
                   );
                 } else {
-                  return Expanded(
-                    child: Container(),
-                  );
+                  return const SizedBox(key: Key('search-error'));
                 }
               },
             ),

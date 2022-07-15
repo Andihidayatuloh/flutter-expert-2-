@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:movies/movies.dart';
 
 class HomeMoviePage extends StatefulWidget {
@@ -13,8 +14,8 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
     super.initState();
     Future.microtask(() {
       context.read<BlocMoviesListBloc>().add(BlocGetMoviesEvent());
-      context.read<BlocPopularMoviesBloc>().add(BlocGetMoviesEvent());
-      context.read<TopRatedMoviesBloc>().add(BlocGetMoviesEvent());
+      context.read<BlocPopularMoviesBloc>().add(BlocGetPopularMoviesEvent());
+      context.read<TopRatedMoviesBloc>().add(BlocGetTopRatedMoviesEvent());
     });
   }
 
@@ -47,16 +48,9 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
             ),
             ListTile(
               leading: const Icon(Icons.save_alt),
-              title: const Text('Movie Watchlist'),
+              title: const Text('Watchlist'),
               onTap: () {
-                Navigator.pushNamed(context, MOVIE_WATCHLIST);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.save_alt),
-              title: const Text('Tv Show Watchlist'),
-              onTap: () {
-                Navigator.pushNamed(context, TV_WATCHLIST);
+                Navigator.pushNamed(context, WATCHLIST);
               },
             ),
             ListTile(
@@ -91,7 +85,8 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 'Now Playing',
                 style: kHeading6,
               ),
-              BlocBuilder<BlocMoviesListBloc, BlocMoviesState>(builder: (context, state) {
+              BlocBuilder<BlocMoviesListBloc, BlocMoviesState>(
+                  builder: (context, state) {
                 if (state is BlocMoviesLoading) {
                   return const Center(
                     child: CircularProgressIndicator(),
@@ -109,16 +104,16 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 title: 'Popular',
                 onTap: () => Navigator.pushNamed(context, MOVIE_POPULAR),
               ),
-              BlocBuilder<BlocPopularMoviesBloc, BlocMoviesState>(
+              BlocBuilder<BlocPopularMoviesBloc, BlocPopularMoviesState>(
                   builder: (context, state) {
-                if (state is BlocMoviesLoading) {
+                if (state is BlocPopularMoviesLoading) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state is BlocMoviesLoaded) {
+                } else if (state is BlocPopularMoviesLoaded) {
                   final result = state.result;
                   return MovieList(result);
-                } else if (state is BlocMoviesError) {
+                } else if (state is BlocPopularMoviesError) {
                   return Text(state.message);
                 } else {
                   return const Text('Failed');
@@ -128,16 +123,16 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 title: 'Top Rated',
                 onTap: () => Navigator.pushNamed(context, MOVIE_TOP_RATED),
               ),
-              BlocBuilder<TopRatedMoviesBloc, BlocMoviesState>(
+              BlocBuilder<TopRatedMoviesBloc, BlocTopRatedMoviesState>(
                   builder: (context, state) {
-                if (state is BlocMoviesLoading) {
+                if (state is BlocTopRatedMoviesLoading) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (state is BlocMoviesLoaded) {
+                } else if (state is BlocTopRatedMoviesLoaded) {
                   final result = state.result;
                   return MovieList(result);
-                } else if (state is BlocMoviesError) {
+                } else if (state is BlocTopRatedMoviesError) {
                   return Text(state.message);
                 } else {
                   return const Text('Failed');

@@ -1,12 +1,9 @@
-
-
 import 'package:dartz/dartz.dart';
+import 'package:tv/tv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tv/tv.dart';
 
-import '../helpers/test_helper.mocks.dart';
-
+import '../helpers/test_helper_tv.mocks.dart';
 
 void main() {
   late GetPopularTv usecase;
@@ -17,7 +14,7 @@ void main() {
     usecase = GetPopularTv(mockTvRpository);
   });
 
-  final tMovies = <Tv>[];
+  final tvs = <Tv>[];
 
   group('GetPopularTv Tests', () {
     group('execute', () {
@@ -26,11 +23,11 @@ void main() {
           () async {
         // arrange
         when(mockTvRpository.getPopularTv())
-            .thenAnswer((_) async => Right(tMovies));
+            .thenAnswer((_) async => Right(tvs));
         // act
         final result = await usecase.execute();
         // assert
-        expect(result, Right(tMovies));
+        expect(result, Right(tvs));
       });
     });
   });

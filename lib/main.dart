@@ -1,11 +1,19 @@
+import 'package:core/utils/ssl.dart';
 import 'package:ditonton/main_library.dart';
 import 'package:about/about.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:ditonton/injection.dart' as di;
-import 'package:search/search.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  di.init();
+import 'package:ditonton/injection.dart' as di;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  // Pass all uncaught errors from the framework to Crashlytics.
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  di.init(await getHttpClient());
   runApp(MyApp());
 }
 
@@ -22,7 +30,7 @@ class MyApp extends StatelessWidget {
           create: (_) => di.locator<BlocMovieDetailBloc>(),
         ),
         BlocProvider(
-          create: (_) => di.locator<BlocSearchMoviesBloc>(),
+          create: (_) => di.locator<BlocMoviesSearchBloc>(),
         ),
         BlocProvider(
           create: (_) => di.locator<TopRatedMoviesBloc>(),
@@ -33,25 +41,37 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => di.locator<WatchlistMoviesBloc>(),
         ),
+        BlocProvider(
+          create: (_) => di.locator<BlocMovieWatchlistStatus>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<BlocWatchlistMovieAR>(),
+        ),
 
         //tv
         BlocProvider(
-          create: (_) => di.locator<BlocListTvBloc>(),
+          create: (_) => di.locator<BlocTvListBloc>(),
         ),
         BlocProvider(
           create: (_) => di.locator<BlocTvDetailBloc>(),
         ),
         BlocProvider(
-          create: (_) => di.locator<BlocSearchTvBloc>(),
+          create: (_) => di.locator<BlocTvSearchBloc>(),
         ),
         BlocProvider(
-          create: (_) => di.locator<BlocTopTvBloc>(),
+          create: (_) => di.locator<TopRatedTvBloc>(),
         ),
         BlocProvider(
           create: (_) => di.locator<BlocPopularTvBloc>(),
         ),
         BlocProvider(
           create: (_) => di.locator<WatchlistTvBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<BlocTvWatchlistStatus>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<BlocWatchlistTvAR>(),
         ),
       ],
       child: MaterialApp(
@@ -97,12 +117,10 @@ class MyApp extends StatelessWidget {
             case MOVIE_SEARCH:
               return CupertinoPageRoute(builder: (_) => SearchPage());
             case TV_SEARCH:
-              return CupertinoPageRoute(builder: (_) => SearchPageTv());
+              return CupertinoPageRoute(builder: (_) => SearchTvPage());
 
-            case MOVIE_WATCHLIST:
-              return MaterialPageRoute(builder: (_) => WatchlistMoviesPage());
-            case TV_WATCHLIST:
-              return MaterialPageRoute(builder: (_) => WatchlistTvPage());
+            case WATCHLIST:
+              return CupertinoPageRoute(builder: (_) => PagesWatchlist());
 
             case ABOUT:
               return MaterialPageRoute(builder: (_) => AboutPage());

@@ -12,24 +12,24 @@ class _PopularTvPageState extends State<PopularTvPage> {
   void initState() {
     super.initState();
     Future.microtask(
-        () => context.read<BlocPopularTvBloc>().add(BlocGetTvEvent()));
+        () => context.read<BlocPopularTvBloc>().add(BlocGetPopularTvEvent()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Popular Movies'),
+        title: Text('Popular Tv'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: BlocBuilder<BlocPopularTvBloc, BlocTvState>(
+        child: BlocBuilder<BlocPopularTvBloc, BlocPopularTvState>(
           builder: (context, state) {
-            if (state is TvLoading) {
-              return Center(
+            if (state is BlocPopularTvLoading) {
+              return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is TvLoaded) {
+            } else if (state is BlocPopularTvLoaded) {
               final result = state.result;
               return ListView.builder(
                 itemBuilder: (context, index) {
@@ -38,7 +38,7 @@ class _PopularTvPageState extends State<PopularTvPage> {
                 },
                 itemCount: result.length,
               );
-            } else if (state is TvError) {
+            } else if (state is BlocPopularTvError) {
               return Center(
                 key: Key('error_message'),
                 child: Text(state.message),

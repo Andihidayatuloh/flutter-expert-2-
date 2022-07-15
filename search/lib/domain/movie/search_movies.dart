@@ -1,4 +1,5 @@
 import 'package:search/search.dart';
+import 'package:core/core.dart';
 import 'package:dartz/dartz.dart';
 
 class SearchMovies {

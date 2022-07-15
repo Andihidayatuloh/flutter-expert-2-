@@ -1,11 +1,10 @@
 import 'package:dartz/dartz.dart';
+import 'package:tv/tv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:tv/tv.dart';
 
-import '../dummy_data/dummy_objects.dart';
-import '../helpers/test_helper.mocks.dart';
-
+import '../data_dummy/dummy_objects.dart';
+import '../helpers/test_helper_tv.mocks.dart';
 
 void main() {
   late GetTvDetail usecase;
@@ -16,14 +15,12 @@ void main() {
     usecase = GetTvDetail(mockTvRepository);
   });
 
-  final tId = 1;
-
   test('should get tv detail from the repository', () async {
     // arrange
-    when(mockTvRepository.getTvDetail(tId))
+    when(mockTvRepository.getTvDetail(1))
         .thenAnswer((_) async => Right(testTvDetail));
     // act
-    final result = await usecase.execute(tId);
+    final result = await usecase.execute(1);
     // assert
     expect(result, Right(testTvDetail));
   });

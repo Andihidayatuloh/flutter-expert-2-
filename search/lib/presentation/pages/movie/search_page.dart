@@ -1,13 +1,14 @@
 import 'package:search/search.dart';
+import 'package:core/core.dart';
 
 class SearchPage extends StatelessWidget {
-  const SearchPage({Key? key}) : super(key: key);
+  static const ROUTE_NAME = '/search';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search'),
+        title: const Text('Search Movies'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -15,8 +16,11 @@ class SearchPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
+              key: const Key('search-textfield'),
               onChanged: (query) {
-                context.read<BlocSearchMoviesBloc>().add(OnQueryChanged(query));
+                context
+                    .read<BlocMoviesSearchBloc>()
+                    .add(OnQueryMoviesChanged(query));
               },
               decoration: const InputDecoration(
                 hintText: 'Search title',
@@ -30,34 +34,31 @@ class SearchPage extends StatelessWidget {
               'Search Result',
               style: kHeading6,
             ),
-            BlocBuilder<BlocSearchMoviesBloc, BlocSearchState>(
-              builder: (context, state) {
-                if (state is SearchLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state is SearchLoaded) {
-                  final result = state.result;
+            BlocBuilder<BlocMoviesSearchBloc, BlocMoviesSearchState>(
+              builder: (context, object) {
+                if (object is BlocMoviesSearchLoading) {
+                  return const Expanded(
+                      child: Center(child: CircularProgressIndicator()));
+                } else if (object is BlocMoviesSearchLoaded) {
+                  final List<dynamic> resultData = [
+                    ...object.data,
+                  ];
                   return Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(8),
-                      itemBuilder: (context, index) {
-                        final movie = result[index];
-                        return MovieCard(movie);
-                      },
-                      itemCount: result.length,
-                    ),
-                  );
-                } else if (state is SearchError) {
-                  return Expanded(
-                    child: Center(
-                      child: Text(state.message),
-                    ),
+                    child: (resultData.isNotEmpty)
+                        ? ListView.builder(
+                            key: const Key('search-listview'),
+                            itemBuilder: (context, index) =>
+                                (resultData[index] is Movie)
+                                    ? MovieCard(resultData[index])
+                                    : const Center(child: Text('Failed')),
+                            itemCount: resultData.length,
+                          )
+                        : const Center(
+                            child: Text('Data Movies tidak dapat ditemukan'),
+                          ),
                   );
                 } else {
-                  return Expanded(
-                    child: Container(),
-                  );
+                  return const SizedBox(key: Key('search-error'));
                 }
               },
             ),

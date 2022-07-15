@@ -24,9 +24,19 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  about:
+    path: about
+  search:
+    path: search
+  movies:
+    path: movies
+  core:
+    path: core
+  tv:
+    path: tv
+  
   cupertino_icons: ^1.0.2
   http: ^0.13.4
   provider: ^6.0.2
@@ -40,22 +50,15 @@ dependencies:
   path_provider: ^2.0.2
   integration_test: ^0.8.1
   flutter_bloc:
+  firebase_core: ^1.19.1
+  firebase_crashlytics: ^2.8.4
 
 dev_dependencies:
   mockito: ^5.0.8
   build_runner: ^2.0.4
   flutter_test:
     sdk: flutter
-  about:
-    path: about
-  search:
-    path: search
-  movies:
-    path: movies
-  core:
-    path: core
-  tv:
-    path: tv
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -71,6 +74,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - sertifikat/certificates.cer
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

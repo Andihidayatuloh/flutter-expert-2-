@@ -11,25 +11,25 @@ class _TopRatedTvPageState extends State<TopRatedTvPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-       context.read<BlocTopTvBloc>().add(BlocGetTvEvent()));
+    Future.microtask(
+        () => context.read<TopRatedTvBloc>().add(BlocGetTopRatedTvEvent()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Top Rated tv'),
+        title: Text('Top Rated Tv'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: BlocBuilder<BlocTopTvBloc, BlocTvState>(
+        child: BlocBuilder<TopRatedTvBloc, BlocTopRatedTvState>(
           builder: (context, state) {
-            if (state is TvLoading) {
+            if (state is BlocTopRatedTvLoading) {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is TvLoaded) {
+            } else if (state is BlocTopRatedTvLoaded) {
               final result = state.result;
               return ListView.builder(
                 itemBuilder: (context, index) {
@@ -38,7 +38,7 @@ class _TopRatedTvPageState extends State<TopRatedTvPage> {
                 },
                 itemCount: result.length,
               );
-            } else if (state is TvError) {
+            } else if (state is BlocTopRatedTvError) {
               return Center(
                 key: Key('error_message'),
                 child: Text(state.message),
