@@ -38,20 +38,5 @@ void main() {
       },
       verify: (bloc) => verify(mocks.execute(queryMovie)),
     );
-
-    blocTest<BlocMoviesSearchBloc, BlocMoviesSearchState>(
-      'harus menampilkan [Loading, Error] saat data pencarian gagal didapatkan',
-      build: () {
-        when(mocks.execute(queryMovie))
-            .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
-        return blocs;
-      },
-      act: (bloc) => bloc.add(OnQueryMoviesChanged(queryMovie)),
-      wait: const Duration(milliseconds: 500),
-      expect: () => {
-        BlocMoviesSearchLoading(), BlocMoviesSearchError('Server Failure')
-      },
-      verify: (bloc) => verify(mocks.execute(queryMovie)),
-    );
   });
 }
