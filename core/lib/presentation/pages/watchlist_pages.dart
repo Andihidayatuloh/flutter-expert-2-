@@ -25,9 +25,11 @@ class _PagesWatchlist extends State<PagesWatchlist> with RouteAware {
 
   @override
   void didPopNext() {
-    super.didPopNext();
-    BlocProvider.of<WatchlistMoviesBloc>(context).add(BlocGetWatchlistMovies());
-    BlocProvider.of<WatchlistTvBloc>(context).add(BlocGetWatchlistTv());
+    // super.didPopNext();
+    // BlocProvider.of<WatchlistMoviesBloc>(context).add(BlocGetWatchlistMovies());
+    // BlocProvider.of<WatchlistTvBloc>(context).add(BlocGetWatchlistTv());
+    context.read<WatchlistMoviesBloc>().add(BlocGetWatchlistMovies());
+    context.read<WatchlistTvBloc>().add(BlocGetWatchlistTv());
   }
 
   @override

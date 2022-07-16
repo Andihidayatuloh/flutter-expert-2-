@@ -17,10 +17,10 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<BlocMovieDetailBloc>().add(FetchMovieDetail(widget.id));
-      context
-          .read<BlocMovieWatchlistStatus>()
+      BlocProvider.of<BlocMovieWatchlistStatus>(context)
           .add(LoadWatchlistMoviesStatus(widget.id));
+      BlocProvider.of<BlocMovieDetailBloc>(context)
+          .add(FetchMovieDetail(widget.id));
     });
   }
 
@@ -126,10 +126,16 @@ class DetailContent extends StatelessWidget {
                                   context
                                       .read<BlocWatchlistMovieAR>()
                                       .add(AddWatchlistMovies(movie));
+                                  context
+                                      .read<BlocMovieWatchlistStatus>()
+                                      .add(LoadWatchlistMoviesStatus(movie.id));
                                 } else {
                                   context
                                       .read<BlocWatchlistMovieAR>()
                                       .add(RemoveFromWatchlistMovies(movie));
+                                  context
+                                      .read<BlocMovieWatchlistStatus>()
+                                      .add(LoadWatchlistMoviesStatus(movie.id));
                                 }
                               },
                               child: Row(

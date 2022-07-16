@@ -1,12 +1,15 @@
 import 'dart:io';
 
+import 'package:core/utils/ssl.dart';
+
 import 'main_library.dart';
 import 'package:http/io_client.dart';
 import 'package:get_it/get_it.dart';
 
 final locator = GetIt.instance;
 
-void init(HttpClient client) {
+Future init() async {
+  IOClient client = await PinSSL.ssl; 
   // bloc movie
   locator.registerFactory(
     () => BlocMoviesSearchBloc(
@@ -154,5 +157,5 @@ void init(HttpClient client) {
   locator.registerLazySingleton<DatabaseTv>(() => DatabaseTv());
 
   // external
-  locator.registerLazySingleton(() => IOClient(client));
+  locator.registerLazySingleton(() => client);
 }

@@ -1,4 +1,3 @@
-import 'package:core/utils/ssl.dart';
 import 'package:ditonton/main_library.dart';
 import 'package:about/about.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -10,10 +9,9 @@ import 'package:ditonton/injection.dart' as di;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
-  // Pass all uncaught errors from the framework to Crashlytics.
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-  di.init(await getHttpClient());
+  await di
+      .init();
   runApp(MyApp());
 }
 

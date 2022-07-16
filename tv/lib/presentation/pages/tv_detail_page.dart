@@ -16,10 +16,9 @@ class _TvDetailPageState extends State<TvDetailPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<BlocTvDetailBloc>().add(FetchTvDetail(widget.id));
-      context
-          .read<BlocTvWatchlistStatus>()
+      BlocProvider.of<BlocTvWatchlistStatus>(context)
           .add(LoadWatchlistTvStatus(widget.id));
+      BlocProvider.of<BlocTvDetailBloc>(context).add(FetchTvDetail(widget.id));
     });
   }
 
@@ -137,10 +136,16 @@ class _DetailContentState extends State<DetailContentTV> {
                                   context
                                       .read<BlocWatchlistTvAR>()
                                       .add(AddWatchlistTv(widget.tv));
+                                  context
+                                      .read<BlocTvWatchlistStatus>()
+                                      .add(LoadWatchlistTvStatus(widget.tv.id));
                                 } else {
                                   context
                                       .read<BlocWatchlistTvAR>()
                                       .add(RemoveFromWatchlistTv(widget.tv));
+                                  context
+                                      .read<BlocTvWatchlistStatus>()
+                                      .add(LoadWatchlistTvStatus(widget.tv.id));
                                 }
                               },
                               child: Row(
@@ -156,8 +161,10 @@ class _DetailContentState extends State<DetailContentTV> {
                             Text(
                               _showGenres(widget.tv.genres),
                             ),
-                              widget.tv.episodeRunTime.isNotEmpty ? Text(
-                                _showDuration(widget.tv.episodeRunTime.first)) :Container (),
+                            widget.tv.episodeRunTime.isNotEmpty
+                                ? Text(_showDuration(
+                                    widget.tv.episodeRunTime.first))
+                                : Container(),
                             Row(
                               children: [
                                 RatingBarIndicator(
